@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>边框</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .button {
+      margin: 50px auto;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .text {
+      width: 96px;
+      height: 26px;
+      line-height: 26px;
+      background-color: #fff;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) translateX(-50%);
+      left: 50%;
+    }
+
+    span {
+      display: inline-block;
+      position: absolute;
+      transition: 0.3s;
+      background-color: #44CEFF;
+    }
+
+    .button span:nth-child(2) {
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 100px;
+      transform: translateX(-100px);
+    }
+
+    .button span:nth-child(3) {
+      top: 0;
+      right: 0;
+      height: 30px;
+      width: 2px;
+      transform: translateY(-30px);
+    }
+
+    .button span:nth-child(4) {
+      bottom: 0;
+      right: 0;
+      height: 2px;
+      width: 100px;
+      transform: translateX(100px);
+    }
+
+    .button span:nth-child(5) {
+      bottom: 0;
+      left: 0;
+      height: 30px;
+      width: 2px;
+      transform: translateY(30px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="button">
+    <div class="text">button</div>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <script>
+    (function () {
+      const button = document.querySelector('.button')
+      const _span = document.querySelectorAll('.button span')
+      button.onmousemove = function () {
+        setTimeout(function () {
+          _span[0].style.transform = 'translateX(0px)'
+          setTimeout(function () {
+            _span[1].style.transform = 'translateY(0px)'
+            setTimeout(function () {
+              _span[2].style.transform = 'translateX(0px)'
+              setTimeout(function () {
+                _span[3].style.transform = 'translateY(0px)'
+              }, 300)
+            }, 300)
+          }, 300)
+        }, 300);
+
+
+      }
+    })()
+  </script>
+</body>
+
+</html>

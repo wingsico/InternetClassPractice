@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>尖括号排列</title>
+  <style>
+    .box {
+      margin: 50px auto;
+      border: 1px dotted #ccc;
+    }
+
+    .list {
+      background-color: pink;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      line-height: 50px;
+      font-size: 30px;
+      color: #fff;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+
+  </div>
+  <script>
+    var box = document.querySelector('.box')
+    var num = 11
+    box.style.width = (num + 1) / 2 * 50 + 'px'
+    box.style.height = num * 50 + 'px'
+    for (let i = 0; i < num; i++) {
+      var marginLeft = (i < num / 2) ? i : (num - i - 1)
+      box.innerHTML += "<div class='list' style='margin-left:" + marginLeft * 50 + "px'>" + (i + 1) + "</div>"
+    }
+  </script>
+</body>
+
+</html>

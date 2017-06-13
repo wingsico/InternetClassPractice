@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>360左侧滑动导航</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+    }
+
+    .menu {
+      width: 60px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .5);
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: all 0.4s;
+    }
+
+    .menu ul {
+      position: absolute;
+      top: 15%;
+      width: 100%;
+    }
+
+    .menu ul li {
+      list-style: none;
+      margin-bottom: 30px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .menu ul li a {
+      background-size: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .menu ul li:nth-child(1) a {
+      background-image: url('images/ss.png');
+    }
+
+    .menu ul li:nth-child(2) a {
+      background-image: url('images/sy.png');
+    }
+
+    .menu ul li:nth-child(3) a {
+      background-image: url('images/yhj.png');
+    }
+
+    .menu ul li:nth-child(4) a {
+      background-image: url('images/jsc.png');
+    }
+
+
+    .menu ul li:hover {
+      background-color: #f8f8f8;
+    }
+
+    .menu ul li:hover .hidden {
+      display: block;
+    }
+
+    .menu ul li a {
+      display: inline-block;
+      height: 50px;
+      line-height: 50px;
+      width: 100%;
+    }
+
+    .button {
+      position: fixed;
+      left: 0;
+      bottom: 10%;
+      text-align: center;
+      cursor: pointer;
+      width: 60px;
+      background-color: #f8f8f8;
+    }
+
+
+
+    .hidden {
+      width: 200px;
+      height: 180px;
+      position: absolute;
+      left: 60px;
+      background-color: #f8f8f8;;
+      border: 1px solid #ccc;
+      top: -1px;
+      border-left: none;
+      display: none;
+      box-shadow: 4px 2px 10px #ccc;
+    }
+
+    .angel {
+      width: 60px;
+      height: 60px;
+      background: url('images/angel.png') no-repeat center;
+      background-size: 80%;
+      transition: all 0.4s;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="menu">
+    <ul>
+      <li>
+        <a href="#"></a>
+        <div class="hidden"></div>
+      </li>
+      <li><a href="#"></a>
+        <div class="hidden"></div>
+      </li>
+      <li><a href="#"></a>
+        <div class="hidden"></div>
+      </li>
+      <li><a href="#"></a>
+        <div class="hidden"></div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="button">
+    <div class="angel"></div>
+  </div>
+
+  <script>
+    var btn = document.querySelector('.button')
+    var angel = document.querySelector('.angel')
+    var menu = document.querySelector('.menu')
+    var flag = 0
+    function slider() {
+      if (flag === 0) {
+        menu.style.transform = "translateX(-60px)"
+        angel.style.transform = "rotate(180deg)"
+        flag = 1
+      } else {
+        menu.style.transform = "translateX(0px)"
+        angel.style.transform = "rotate(0deg)"
+        flag = 0;
+      }
+    }
+
+    btn.addEventListener('click', slider)
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>99乘法表</title>
+  <style>
+    .box {
+      display: inline-block;
+      width: 70px;
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid #44ceff;
+      margin: 5px;
+      text-align: center;
+    }
+
+    .table {
+      border-bottom: 1px solid #ccc;
+      height: 385px;
+      min-width: 738px;
+      padding: 20px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="box1 table"></div>
+  <div class="box2 table"></div>
+  <div class="box3 table"></div>
+  <div class="box4 table"></div>
+
+  <script>
+    var table1 = document.querySelector('.box1')
+    var table2 = document.querySelector('.box2')
+    var table3 = document.querySelector('.box3')
+    var table4 = document.querySelector('.box4')
+
+    for(var i = 1; i <= 9; i++){
+      for(var j = 1; j <= i; j++){
+        table1.innerHTML += "<div class='box'>" + j + '×' + i + '=' + i*j + "</div>"
+      }
+      table1.innerHTML += "</br>"
+    }
+
+    for(var i = 1; i <= 9; i++){
+      for(var j = i; j <= 9; j++){
+        table2.innerHTML += "<div class='box'>" + i + '×' + j + '=' + i*j + "</div>"
+      }
+      table2.innerHTML += "</br>"
+    }
+
+    for(var i = 9; i >= 1; i--){
+      for(var j = 9; j >= i; j--){
+        table3.innerHTML += "<div class='box'>" + i + '×' + j + '=' + i*j + "</div>"
+      }
+      table3.innerHTML += "</br>"
+    }
+    for(var i = 9; i >= 1; i--){
+      for(var j = 1; j <= i; j++){
+        table4.innerHTML += "<div class='box'>" + i + '×' + j + '=' + i*j + "</div>"
+      }
+      table4.innerHTML += "</br>"
+    }
+
+    
+  </script>
+</body>
+</html>

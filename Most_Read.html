@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Most_Read</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .content {
+      width: 300px;
+      height: 330px;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+      padding: 10px 20px;
+      box-shadow: 2px 2px 7px 0px #ccc;
+    }
+
+    .title {
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .en-title {
+      font-size: 16px;
+      color: #ccc;
+    }
+
+    .news-ul {
+      list-style: none;
+      white-space: nowrap;
+    }
+
+    .news-list {
+      margin-top: 15px;
+      padding-left: 40px;
+      height: 25px;
+      line-height: 25px;
+
+      width: 100%;
+      padding-left: 40px;
+    }
+
+    .news-list a {
+      display: inline-block;
+      color: #000;
+      text-decoration: none;
+      width: 85%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .news-list:nth-child(1) {
+      background: url("images/bg.png") no-repeat 2px 5px;
+    }
+
+    .news-list:nth-child(2) {
+      background: url("images/bg.png") no-repeat 2px -25px;
+    }
+
+    .news-list:nth-child(3) {
+      background: url("images/bg.png") no-repeat 2px -55px;
+    }
+
+    .news-list:nth-child(4) {
+      background: url("images/bg.png") no-repeat 2px -85px;
+    }
+
+    .news-list:nth-child(5) {
+      background: url("images/bg.png") no-repeat 2px -115px;
+    }
+
+    .news-list:nth-child(6) {
+      background: url("images/bg.png") no-repeat 2px -145px;
+    }
+
+    .news-list:nth-child(7) {
+      background: url("images/bg.png") no-repeat 2px -175px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h3 class="title">
+      <span class="cn-title">潮流排行</span>
+      <span class="en-title">Most Read</span>
+    </h3>
+
+    <ul class="news-ul">
+      <li class="news-list"><a href="#">秋冬坳造型 你也需要一款时髦的秋冬款</a></li>
+      <li class="news-list"><a href="#">屡登女富豪榜首 川普女儿能挣多少钱</a></li>
+      <li class="news-list"><a href="#">英王室175年传家宝 男女出生必要干嘛</a></li>
+      <li class="news-list"><a href="#">k帅穿裙装变美 天使AA换裤装男性魅力</a></li>
+      <li class="news-list"><a href="#">夏琳王菲美过10年前？穿Dior高搞搞搞高</a></li>
+      <li class="news-list"><a href="#">东京红毯吹出强劲中国风 吴亦凡烦烦烦</a></li>
+      <li class="news-list"><a href="#">一场"最诗艺"的时装秀</a></li>
+    </ul>
+  </div>
+  <script>
+    var num = 10  // 数组元素的个数，自定义
+    var arr = [] // 随机数组
+    var max = 100  // 期望的最大值，可自定义
+    var min = 0   // 期望的最小值，可自定义
+    var flag = false // 是否找到，找到则为true, 默认未找到
+    // 生成随机数组
+    for (var i = 0; i < num; i++) {
+      var randomNum = parseInt(Math.random() * (max - min + 1) + min, 10); // 自定义随机数(这里定义为整数)
+      console.log(randomNum)
+      arr.push(randomNum)
+    }
+    console.log(arr)
+    function inputNum() {
+      var number = Number(prompt('输入一个整数')) 
+      if( typeof number !== "number"){
+        alert('请确认输入的是整数！')
+        inputNum()
+      }
+      for (var j = 0; j < num; j++) {
+        if (number === arr[j]) {
+          alert('找到了')
+          flag = true
+        }
+      }
+      if(flag === false){
+        if(confirm('数字不在数组内，是否重新输入？')){
+          inputNum()
+        }
+      }
+    }
+    inputNum()
+  </script>
+</body>
+
+</html>

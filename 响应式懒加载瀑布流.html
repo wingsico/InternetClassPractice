@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="jquery.js"></script>
+  <title>瀑布流</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      background-color: #ccc;
+    }
+
+    #container {
+      position: relative;
+      width: 1000px;
+      margin: 50px auto;
+    }
+
+    .item {
+      position: absolute;
+      width: 200px;
+      border: 3px solid #fff;
+    }
+
+    .item img {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+  <script>
+    var page = 0 // 当前页码
+    var url = "http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&word=超清&callback=?" //数据接口地址
+    var w = 200 // 每一个div的内容的宽度
+    var cells = 0 // 存储列数
+    var space = 16 // 每列之间的间隙
+    var time = 0  
+    var outerWidth = w + space // 每一列所占的宽度
+    //计算列数
+    function getCell() {
+      cells = Math.floor(window.innerWidth / outerWidth)
+      if (cells < 3) {
+        cells = 3
+      } else if (cells > 6) {
+        cells = 6
+      }
+      $("#container").width(cells * outerWidth - space)
+    }
+    // 得到列数
+    getCell()
+    // 定位第一排图片
+    var arrLeft = []
+    var arrTop = []
+    for (var i = 0; i < cells; i++) {
+      arrTop.push(0)
+      arrLeft.push(i * outerWidth)
+    }
+
+    //找到top最小的列的索引
+
+    function getMinIndex(arr) {
+      var min = arr[0]
+      var index = 0
+      var len = arr.length
+      for (var i = 1; i < len; i++) {
+        if (arr[i] < min) {
+          min = arr[i]
+          index = i
+        }
+      }
+      return index
+    }
+    // 请求数据
+    function load() {
+      $.getJSON(url, { pn: page }, function (res) {
+        console.log(res)
+        res.data.forEach(function (obj) {
+          if (obj.hoverURL) {
+            var $div = $("<div>")
+            var minIndex = getMinIndex(arrTop)
+            $div.height(obj.height * 200 / obj.width)
+            $div.addClass('item').animate({
+              left: arrLeft[minIndex],
+              top: arrTop[minIndex]
+            }).html("<img src=" + obj.hoverURL + ">")
+            $('#container').append($div)
+
+            arrTop[minIndex] += $div.height() + space
+          }
+        })
+      })
+    }
+    load()
+    $(window).on("scroll", function(){
+      // 获取滚动条的高度
+      time++
+      var t = $(window).scrollTop()
+      var h = $(window).innerHeight()
+      var _h = $(document).height()
+      console.log(time)
+      if( t + h + 100 > _h && time > 15){
+        
+        page++
+        load()
+        time = 0
+        console.log(page)
+      }
+    })
+
+    // 计算列数
+  </script>
+</body>
+
+</html>

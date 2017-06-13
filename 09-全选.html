@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>全选</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style: none;
+      width: 300px;
+      margin: 0;
+      padding: 0;
+      margin: 50px auto;
+    }
+
+    p {
+      display: inline-block;
+    }
+
+    #container ul li {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      border: 1px solid #ccc;
+      position: relative;
+    }
+
+    #container ul li:hover:not(last) {
+      background-color: #EE6A50;
+      color: #fff;
+    }
+
+    #container ul li:nth-child(even) {
+      background-color: #F0F8FF;
+    }
+
+    #container ul li:nth-child(odd) {
+      background-color: #D1EEEE;
+    }
+
+    #container ul li span {
+      width: 40px;
+      height: 40px;
+      display: inline-block;
+      margin-left: 10px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url('images/unchecked.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+    }
+
+    #container ul li.checked span {
+      background-image: url('images/checked.png');
+    }
+
+    #container ul li p {
+      margin-left: 60px;
+      cursor: pointer;
+    }
+
+    div.text {
+      margin-left: 50px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    #container #allCheckLine {
+      background-color: #fff;
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <ul>
+      <li>
+        <span></span>
+        <p>灵魂的梦给了我一首诗，</p>
+      </li>
+      <li>
+        <span></span>
+        <p>它简短有力，</p>
+      </li>
+      <li>
+        <span></span>
+        <p>只有六行。</p>
+      </li>
+      <li>
+        <span></span>
+        <p>现实的我，</p>
+      </li>
+      <li>
+        <span></span>
+        <p>穷尽脑汁，</p>
+      </li>
+      <li>
+        <span></span>
+        <p>至今仍活在臃肿中。</p>
+      </li>
+      <li id="allCheckLine">
+        <span class="allCheck"></span>
+        <div class="text">全选</div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      const _li = document.getElementById('container').getElementsByTagName('li'), // 获取 所有 li 标签
+        length = _li.length, // li标签的长度
+        allCheckLine = document.getElementById('allCheckLine'), // 获取全选的那一行
+        allCheck = allCheckLine.querySelector('.allCheck'), // 获取全选按钮
+        _span = document.querySelectorAll('span') // 获取所有的勾选框（包括了全选按钮）
+      let flag = true; // 标志，如果为true则未全部选中, false则全部选中
+
+      let counts = 0 // 计数器，记录被勾选的个数
+
+      // 遍历前六个li ， 因为最后一个是全选，无需遍历
+      for (let i = 0; i < length - 1; i++) {
+        _li[i].flag = false // 设置标志，false为未选中, true为选中
+        _li[i].onclick = function () {
+          if (!this.flag) {
+            // 未选中添加样式并且更改flag为true
+            this.classList.add('checked')
+            this.flag = true
+            counts++ // 选中的话counts加一，
+            checkAll() // 调用函数检测counts是否为 6
+          } else {
+            this.classList.remove('checked')
+            this.flag = false
+            counts-- // 取消选中则counts减一
+            checkAll() // 同上
+          }
+        }
+      }
+
+      // 全选
+      allCheckLine.onclick = function () {
+        if (flag) {
+          // 未选中时点击，添加自身样式并且循环遍历，都添加样式，并且设置他的flag为true，即都选中
+          this.classList.add('checked')
+          for (let i = 0; i < length - 1; i++) {
+            _li[i].classList.add('checked')
+            _li[i].flag = true
+          }
+          flag = false // false 为选中，变更状态
+          counts = length - 1 // 全部选中，则计数器为 6，因为一共有七行，最后一行为 全选行。
+        } else {
+          // 同上
+          this.classList.remove('checked')
+          for (let i = 0; i < length - 1; i++) {
+            _li[i].classList.remove('checked')
+            _li[i].flag = false
+          }
+          flag = true
+          counts = 0 // 全部未选中，归零
+        }
+      }
+
+      // 检测是否全部选中
+      function checkAll(){
+        console.log(counts)
+        if(counts === length - 1){
+          flag = false // 表示全选，设置全选行的状态
+          allCheckLine.classList.add('checked')
+        } else {
+          flag = true // 表示全部未选，设置全选行的状态
+          allCheckLine.classList.remove('checked')
+        }
+      }
+    })()
+  </script>
+</body>
+
+</html>

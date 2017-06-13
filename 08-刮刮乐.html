@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>刮刮乐</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 300px;
+      height: 300px;
+      margin: 50px auto;
+      position: relative;
+    }
+
+    .container img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .mask {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .quotes {
+      float: left;
+      background-color: #ccc;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <img src="images/p1.jpeg" alt="蕾姆">
+    <div class="mask"></div>
+  </div>
+
+  <script>
+    const mask = document.querySelector('.mask')
+    const counts = 400
+    const w = mask.offsetWidth / Math.sqrt(counts)
+    for (let i = 0; i < counts; i++) {
+      let divs = document.createElement('div')
+      divs.index = i
+      divs.className = 'quotes'
+      divs.style.width = w + 'px'
+      divs.style.height = w + 'px'
+      mask.appendChild(divs)
+    }
+    const _div = document.querySelectorAll('.quotes')
+    document.onmousedown = function () {
+      for (let i = 0; i < counts; i++) {
+        _div[i].onmousemove = function () {
+          this.style.backgroundColor = 'transparent'
+          document.onmouseup = function () {
+            console.log('up')
+            document.onmousedown = null
+            _div[i].onmousemove = null
+          }
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>原生图片拖拽</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #photo {
+      width: 680px;
+      margin: 100px auto;
+    }
+
+    #photo ul li {
+      list-style: none;
+      width: 200px;
+      height: 200px;
+      float: left;
+      margin: 10px;
+      border:2px solid transparent;
+    }
+
+    #photo ul li img {
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="photo">
+    <ul>
+      <li><img src="images/p1.jpeg" alt=""></li>
+      <li><img src="images/p2.jpeg" alt=""></li>
+      <li><img src="images/p3.jpeg" alt=""></li>
+      <li><img src="images/p4.jpeg" alt=""></li>
+      <li><img src="images/p5.jpg" alt=""></li>
+      <li><img src="images/p6.jpeg" alt=""></li>
+      <li><img src="images/p7.jpg" alt=""></li>
+      <li><img src="images/p8.jpeg" alt=""></li>
+      <li><img src="images/p9.jpg" alt=""></li>
+    </ul>
+  </div>
+  <script src="move.js"></script>
+  <script>
+    /* 
+      面向过程
+      0、 把浮动布局改为定位布局
+      1、拖拽功能
+      2、碰撞检测
+      3、计算碰撞成功的最近的li
+      4、鼠标抬起之后交换碰撞成功的两个li
+
+      面向对象
+
+
+    */
+    // 0:
+    var aLi = document.getElementsByTagName('li')
+    var arr = [] // 储存li的偏移量
+    var z = 1
+    // 将aLi.length 赋值给len，就只需要执行一次，如果写在 i<aLi.length 有多长就会执行多少次
+    for (var i = 0, len = aLi.length; i < len; i++) {
+      arr.push([aLi[i].offsetLeft, aLi[i].offsetTop])
+    }
+    // 改为绝对定位,保持位置不变
+    for (var i = 0, len = aLi.length; i < len; i++) {
+      aLi[i].style.position = 'absolute'
+      aLi[i].style.left = arr[i][0] + 'px'
+      aLi[i].style.top = arr[i][1] + 'px'
+      aLi[i].style.margin = 0
+    }
+
+    // 1:
+    for (var i = 0, len = aLi.length; i < len; i++) {
+      drag(aLi[i])
+    }
+
+    function drag(obj) {
+      obj.onmousedown = function (event) {
+        var event = event || window.event
+        // 获取鼠标按下去的坐标
+        var x = event.clientX
+        var y = event.clientY
+        // 获取初始位置
+        var left = this.offsetLeft
+        var top = this.offsetTop
+        // li层级问题
+        // for (var j = 0, l = aLi.length; j < l; j++) {
+        //   aLi[j].style.zIndex = 1;
+        // }
+        // this.style.zIndex = 10
+        // 会有bug,点击另一张图片之后原来的图片恢复之前的层叠
+        this.style.zIndex = z++
+        // 鼠标移动过程中
+        document.onmousemove = function (event) {
+          var event = event || window.event
+          var _left = event.clientX - x + left
+          var _top = event.clientY - y + top
+          obj.style.left = _left + "px"
+          obj.style.top = _top + "px"
+
+          // 碰撞检测
+          var oLi = nearLi(obj)
+          var temp = 0
+          for (var i = 0, len = aLi.length; i < len; i++) {
+            aLi[i].style.border = 0
+          }
+          // 未完成
+          if (oLi) {
+            move(oLi,{left:arr[obj,index][0],top:arr[obj.index][1]})
+            move(obj,{left:arr[obj,index][0],top:arr[obj.index][1]})
+            oLi.style.border = "2px solid transparent"
+
+            // 交换索引
+            tmp = obj.index
+            obj.index = oLi.indexOf
+            oLi.index = temp
+          } else {
+             move(obj,{left:arr[obj,index][0],top:arr[obj.index][1]})
+          }
+        }
+
+        document.onmouseup = function () {
+          document.onmousemove = null; // 解绑事件
+          document.onmouseup = null
+        }
+        return false // 阻止默认事件
+      }
+    }
+
+    function impact(obj1, obj2) {
+      var l1 = obj1.offsetLeft,
+        r1 = l1 + obj1.offsetWidth,
+        t1 = obj1.offsetTop,
+        b1 = t1 + obj1.offsetHeight
+
+      var l2 = obj2.offsetLeft,
+        r2 = l2 + obj2.offsetWidth,
+        t2 = obj2.offsetTop,
+        b2 = t2 + obj2.offsetHeight
+
+      if (r1 < l2 || l1 > r2 || b1 < t2 || t1 > b2) {
+        return false
+        // 不成功
+      } else {
+        return true
+      }
+    }
+
+    // 计算最小距离
+    function nearLi(obj) {
+      var n = 100000
+      var oLi = ''
+      for (var i = 0, len = aLi.length; i < len; i++) {
+        if (impact(obj, aLi[i]) && obj !== aLi[i]) {
+          // 比较出距离最近的li
+          var c = distance(obj, aLi[i])
+          if (c < n) {
+            n = c
+            oLi = aLi[i]
+          }
+        }
+      }
+      return oLi
+    }
+
+    // 勾股定理计算斜边长度
+
+    function distance(obj1, obj2) {
+      var a = obj1.offsetLeft - obj2.offsetLeft
+      var b = obj1.offsetTop - obj2.offsetTop
+      return Math.sqrt(a * a + b * b)
+    }
+
+  
+  </script>
+</body>
+
+</html>
